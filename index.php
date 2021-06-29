@@ -57,6 +57,18 @@ $aluno = new Usuario("alunX","@lunX");
 $aluno->insert();
 echo $aluno;
 */
+//
+// Aula 68 - DAO UPDATE => atualizar um usuario;
+//
+$usuario = new Usuario();
+$usuario->loadById(9);
+$usuario->update( "professor","123456");
+echo $usuario;
+
+
+
+
+
 
 
 
