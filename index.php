@@ -60,10 +60,22 @@ echo $aluno;
 //
 // Aula 68 - DAO UPDATE => atualizar um usuario;
 //
+/*
 $usuario = new Usuario();
 $usuario->loadById(9);
 $usuario->update( "professor","123456");
 echo $usuario;
+*/
+
+//
+// Aula 69 - DAO DELETE => excluir um usuario;
+//
+$usuario = new Usuario();
+$usuario->loadById(8);
+$usuario->delete();
+$lista = Usuario::getList();
+echo json_encode($lista);
+
 
 
 
