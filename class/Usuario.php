@@ -12,8 +12,11 @@ class Usuario {
     public function getIdusuario()
     {
         return $this->idusuario;
-    } // end of getIdusuario
-
+    } 
+    // end of getIdusuario
+    //
+    //-----------------------------------------------------------------------------
+    //
     /**
      * Set the value of idusuario
      */
@@ -22,14 +25,23 @@ class Usuario {
         $this->idusuario = $idusuario;
 
         return $this;
-    } // end of setIdusuario
+    } 
+    // end of setIdusuario
+    //
+    //-----------------------------------------------------------------------------
+    //
+
     /**
      * Get the value of deslogin
      */
     public function getDeslogin()
     {
         return $this->deslogin;
-    } // end of getDeslogin
+    } 
+    // end of getDeslogin
+    //
+    //-----------------------------------------------------------------------------
+    //
 
     /**
      * Set the value of deslogin
@@ -39,7 +51,11 @@ class Usuario {
         $this->deslogin = $deslogin;
 
         return $this;
-    } //end of setDeslogin
+    } 
+    //end of setDeslogin
+    //
+    //-----------------------------------------------------------------------------
+    //
 
     /**
      * Get the value of dessenha
@@ -47,7 +63,11 @@ class Usuario {
     public function getDessenha()
     {
         return $this->dessenha;
-    } //end of getDessenha
+    } 
+    //end of getDessenha
+    //
+    //-----------------------------------------------------------------------------
+    //
 
     /**
      * Set the value of dessenha
@@ -57,16 +77,22 @@ class Usuario {
         $this->dessenha = $dessenha;
 
         return $this;
-    } //end of setDessenha
-
+    } 
+    //end of setDessenha
+    //
+    //-----------------------------------------------------------------------------
+    //
     /**
      * Get the value of dtcadastro
      */
     public function getDtcadastro()
     {
         return $this->dtcadastro;
-    } // end getDtcadastro
-
+    } 
+    // end getDtcadastro
+    //
+    //-----------------------------------------------------------------------------
+    //
     /**
      * Set the value of dtcadastro
      */
@@ -75,10 +101,13 @@ class Usuario {
         $this->dtcadastro = $dtcadastro;
 
         return $this;
-    } // end of setDtcadastro
-
+    } 
+    // end of setDtcadastro
+    //
+    //-----------------------------------------------------------------------------
+    //
     public function loadById($id){
-        $sql = new SQL();
+        $sql = new Sql();
         $results = $sql->select("SELECT * FROM tb_usuarios WHERE idusuario = :ID", 
         array(":ID"=>$id));
         if(isset($results[0]) && count($results[0]) >0)
@@ -90,8 +119,11 @@ class Usuario {
             $this->setDtcadastro(new DateTime( $row['dtcadastro']));
         }
         
-    }// end function loadById
-
+    }
+    // end function loadById
+    //
+    //-----------------------------------------------------------------------------
+    //
     public function __toString(){
 
         return json_encode(array(
@@ -100,7 +132,51 @@ class Usuario {
         "dessenha"  =>$this->getDessenha(),
         "dtcadastro"=>$this->getDtcadastro()->format("d/m/Y H:m:s")
         ));
-    } // end of toString
+    } 
+    // end of toString
+    //
+    //-----------------------------------------------------------------------------
+    //
+    public static function getList()
+    {
+        $sql = new Sql();
+        return $sql->select("SELECT * FROM tb_usuarios ORDER BY deslogin;");
+
+    }
+    // end of getList()
+    //
+    //-----------------------------------------------------------------------------
+    //
+    public static function search($search){
+        $sql = new Sql();
+        return $sql->select("SELECT * FROM tb_usuarios WHERE deslogin LIKE :SEARCH ORDER BY deslogin;",
+        array(":SEARCH"=>"%".$search."%"));
+    }
+    // end of search
+    //
+    //-----------------------------------------------------------------------------
+    //
+    public function login($login, $password){
+
+        $sql = new SQL();
+        $results = $sql->select("SELECT * FROM tb_usuarios WHERE deslogin = :LOGIN AND dessenha= :SENHA", 
+        array(  ":LOGIN"=>$login,
+                ":SENHA"=>$password));
+        if(isset($results[0]) && count($results[0]) >0)
+        {
+            $row = $results[0];
+            $this->setIdusuario( $row['idusuario'] );
+            $this->setDeslogin(  $row['deslogin']  );
+            $this->setDessenha(  $row['dessenha']  );
+            $this->setDtcadastro(new DateTime( $row['dtcadastro']));
+        } else {
+            throw new Exception("Login  e/ou senha Invalidos! ");            
+        }
+    }
+    // end of login
+    //
+    //-----------------------------------------------------------------------------
+    //
 
 
 } // end of class Usuarios
