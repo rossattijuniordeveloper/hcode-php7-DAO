@@ -22,14 +22,15 @@ $usu = new Usuario();
 $usu->login("mario","123456");
 echo $usu ;
 */
-/* aula 66 INSERT 
+/* aula 66 INSERT /
 $aluno = new Usuario();
-$aluno->setDeslogin("nico");
-$aluno->setDessenha("@123");
+$aluno->setDeslogin("jurandir");
+$aluno->setDessenha($aluno->getDeslogin()."@123");
+//$aluno->setDtcadastro();
 $aluno->Insert();
 echo $aluno;
 */
-
+/* aulas 67,68 insert e update
 $usuario = new Usuario();
 
 echo 'load'.'<br>';
@@ -41,5 +42,17 @@ echo 'update'.'<br>';
 $usuario->Update('santos FC','campeao');
 
 echo $usuario.'<br>';
+*/
+/* aula 69 delete
+$usuario = new Usuario();
+echo json_encode( $usuario->getList()).'<br>';
+
+$usuario->loadById(2);
+
+$usuario->delete();
+
+echo json_encode( $usuario->getList());
+*/
+
 
 ?>

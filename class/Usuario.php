@@ -6,6 +6,11 @@ class Usuario {
     private $dessenha;
     private $dtcadastro;
 
+    public function __construct( $login = "",$password = "")
+    {
+        $this->setDeslogin($login);
+        $this->setDessenha($password);
+    }
     /**
      * Get the value of idusuario
      */
@@ -96,7 +101,7 @@ class Usuario {
     /**
      * Set the value of dtcadastro
      */
-    public function setDtcadastro($dtcadastro): self
+    public function setDtcadastro($dtcadastro = '')
     {
         $this->dtcadastro = $dtcadastro;
 
@@ -114,12 +119,7 @@ class Usuario {
         {
             
             $this->setData($results[0]);
-            /*
-            $this->setIdusuario( $row['idusuario'] );
-            $this->setDeslogin(  $row['deslogin']  );
-            $this->setDessenha(  $row['dessenha']  );
-            $this->setDtcadastro(new DateTime( $row['dtcadastro']));
-            */
+            
         }
         
     }
@@ -168,12 +168,6 @@ class Usuario {
         if(isset($results[0]) && count($results[0]) >0)
         {
             $this->setData($results[0]);
-            /*
-            $this->setIdusuario( $row['idusuario'] );
-            $this->setDeslogin(  $row['deslogin']  );
-            $this->setDessenha(  $row['dessenha']  );
-            $this->setDtcadastro(new DateTime( $row['dtcadastro']));
-            */
         } else {
             throw new Exception("Login  e/ou senha Invalidos! ");            
         }
@@ -185,9 +179,9 @@ class Usuario {
     public function Insert(){
         $sql = new Sql();
         $results =  $sql->select("CALL  sp_usuarios_Insert(:LOGIN , :PASSWORD)",
-        array(":LOGIN"   =>$this->getDeslogin(),
-              ":PASSWORD"=>$this->getDessenha()));
-            if(count($results)>0)
+        array(":LOGIN"      =>$this->getDeslogin(),
+              ":PASSWORD"   =>$this->getDessenha()));
+              if(count($results)>0)
                 $this->setData($results[0])    ;          
 
     }
@@ -218,7 +212,18 @@ class Usuario {
 
     }
     // end of Update
+    public function delete(){
+        $sql = new Sql();
+        $sql->myQuery("DELETE FROM tb_usuarios WHERE idusuario= :ID"
+        ,array(":ID" => $this->getidusuario())
+        );
+        $this->setIdusuario(NULL);
+        $this->setDeslogin("");
+        $this->setDessenha("");
+        $this->setDtcadastro( new DateTime());
 
+    }
+    //end of Delete
 
 } // end of class Usuarios
 ?>
